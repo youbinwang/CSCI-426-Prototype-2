@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class RainDropBehavior : MonoBehaviour
 {
+    AudioSource audioSource;
+    Animator animator;
+
     SpriteRenderer spriteRenderer;
     SortedDictionary<int, Color> colorChoices;
     SortedDictionary<int, string> clipChoices;
 
-    AudioSource audioSource;
+    int index;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,19 +33,19 @@ public class RainDropBehavior : MonoBehaviour
         clipChoices = new SortedDictionary<int, string>
         {
             { 0,  "do"},
-            { 1,  "Audio/Raindrop/re"},
-            { 2,  "Audio/Raindrop/mi"},
-            { 3,  "Audio/Raindrop/fa"},
-            { 4,  "Audio/Raindrop/so"},
-            { 5,  "Audio/Raindrop/la"},
-            { 6,  "Audio/Raindrop/ti"}
+            { 1,  "re"},
+            { 2,  "mi"},
+            { 3,  "fa"},
+            { 4,  "so"},
+            { 5,  "la"},
+            { 6,  "ti" }
         };
 
-        int color = Random.Range(0, 6);
+        index = Random.Range(0, 6);
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.color = colorChoices[color];
+        spriteRenderer.color = colorChoices[index];
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = Resources.Load<AudioClip>(clipChoices[color]);
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,7 +56,7 @@ public class RainDropBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        audioSource.PlayOneShot(audioSource.clip);
-        Destroy(this.gameObject);
+        audioSource.PlayOneShot(Resources.Load<AudioClip>(clipChoices[index]));
+        Destroy(this.gameObject, 1.2f);
     }
 }

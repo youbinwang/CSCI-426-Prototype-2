@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8468385924845426385}
   - component: {fileID: 6052704456574667362}
   - component: {fileID: 2156624833056859418}
+  - component: {fileID: 7304414303021058061}
   - component: {fileID: 446111902601651166}
-  - component: {fileID: 8214722228524564512}
   m_Layer: 0
   m_Name: Raindrop Container
   m_TagString: Untagged
@@ -98,19 +98,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &446111902601651166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6581534579817460856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c91bb0a07995fa4b867abc3709a996f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!82 &8214722228524564512
+--- !u!82 &7304414303021058061
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,13 +111,13 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.64
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.62
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -206,6 +194,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &446111902601651166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581534579817460856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c91bb0a07995fa4b867abc3709a996f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9087571361311046222
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.056, z: 10}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8468385924845426385}
