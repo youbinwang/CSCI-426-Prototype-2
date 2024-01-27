@@ -204,7 +204,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1579238
@@ -425,7 +425,7 @@ SpriteRenderer:
   m_Size: {x: 1.6, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &417541465
@@ -509,7 +509,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &899288500
@@ -593,7 +593,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &930067972
@@ -677,7 +677,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1161159271
@@ -731,6 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f346b7622e57ba42bbc2b72e792deaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgColorToUpdate: {fileID: 0}
 --- !u!1 &1681124347
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +814,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1681124350
@@ -828,6 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f346b7622e57ba42bbc2b72e792deaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgColorToUpdate: {fileID: 0}
 --- !u!1 &1913474050
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,7 +911,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1660057539 &9223372036854775807
