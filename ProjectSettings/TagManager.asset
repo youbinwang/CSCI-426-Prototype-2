@@ -12,6 +12,7 @@ TagManager:
   - BlueRainbow
   - PurpleRainbow
   - Ground
+  - Umbrella
   layers:
   - Default
   - TransparentFX
