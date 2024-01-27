@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 3.0f;
+    public float speed = 1.0f;
     private Rigidbody2D rb;
     private Vector2 moveVelocity;
     private bool facingRight = true;
     
-    public float umbrellaSpeed = 1f;
+    public float umbrellaSpeed = 3f;
     public GameObject umbrella;
     private bool umbrellaActive = false;
 

@@ -13,6 +13,7 @@ TagManager:
   - PurpleRainbow
   - Ground
   - Umbrella
+  - Raindrop
   layers:
   - Default
   - TransparentFX

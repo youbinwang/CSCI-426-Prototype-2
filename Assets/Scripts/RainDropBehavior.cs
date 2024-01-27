@@ -5,58 +5,69 @@ using UnityEngine;
 
 public class RainDropBehavior : MonoBehaviour
 {
-    AudioSource audioSource;
-    Animator animator;
+    private int colorIndex;
+    private int soundIndex;
+    private string[] soundClips = new string[7] { "do", "re", "mi", "fa", "so", "la", "ti" };
+    private AudioSource audioSource;
 
-    SpriteRenderer spriteRenderer;
-    SortedDictionary<int, Color> colorChoices;
-    SortedDictionary<int, string> clipChoices;
-
-    int index;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        // choose color (0-6)
-        colorChoices = new SortedDictionary<int, Color>
+        audioSource = gameObject.GetComponent<AudioSource>();
+        if (audioSource == null)
         {
-            { 0, Color.gray },
-            { 1, Color.red },
-            { 2, Color.magenta },
-            { 3, Color.yellow },
-            { 4, Color.green },
-            { 5, Color.cyan },
-            { 6, Color.blue }
-        };
-
-        // choose sound
-        clipChoices = new SortedDictionary<int, string>
-        {
-            { 0,  "do"},
-            { 1,  "re"},
-            { 2,  "mi"},
-            { 3,  "fa"},
-            { 4,  "so"},
-            { 5,  "la"},
-            { 6,  "ti" }
-        };
-
-        index = Random.Range(0, 6);
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.color = colorChoices[index];
-        audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetColorAndSoundIndex(int colorIdx, int soundIdx)
     {
+        colorIndex = colorIdx;
+        soundIndex = soundIdx;
+        if (audioSource != null)
+        {
+            audioSource.clip = Resources.Load<AudioClip>(soundClips[soundIndex]);
+            if (audioSource.clip == null)
+            {
+                Debug.LogError("Failed to load audio clip: " + soundClips[soundIndex]);
+            }
+            else
+            {
+                Debug.Log("Loaded audio clip: " + soundClips[soundIndex]);
+            }
+        }
+        else
+        {
+            Debug.LogError("AudioSource component not found!");
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Player")
+        {
+            Debug.Log("Player hit");
+
+            // 确保 AudioSource 和 AudioClip 都不为 null
+            if (audioSource != null && audioSource.clip != null)
+            {
+                audioSource.PlayOneShot(audioSource.clip);
+                Debug.Log("Playing audio: " + soundClips[soundIndex]);
+            }
+            else
+            {
+                Debug.LogError("AudioSource or AudioClip is null");
+            }
+
+            // 在此处销毁对象可能会立即停止播放声音
+            // 如果您希望声音播放完毕后再销毁对象，您可能需要稍作调整
+            Destroy(gameObject, audioSource.clip.length);
+        }
         
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        audioSource.PlayOneShot(Resources.Load<AudioClip>(clipChoices[index]));
-        Destroy(this.gameObject, 1.2f);
+        if (collider.gameObject.tag == "Ground")
+        {
+            Destroy(gameObject);
+        }
+        
     }
 }
