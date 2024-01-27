@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class BackgroundChanger : MonoBehaviour
 {
-    SpriteRenderer bgRenderer;
+    GameObject bgColorToUpdate;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        bgRenderer = GetComponent<SpriteRenderer>();
+        bgColorToUpdate = GameObject.Find("Red");        
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = GameObject.Find("Orange");
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = GameObject.Find("Yellow");
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = GameObject.Find("Green");
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = GameObject.Find("Blue");
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = GameObject.Find("Purple");
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = false;
+
+        bgColorToUpdate = null;
     }
 
     // Update is called once per frame
@@ -19,6 +37,7 @@ public class BackgroundChanger : MonoBehaviour
 
     public void UpdateBackground(string path)
     {
-        bgRenderer.sprite = Resources.Load<Sprite>(path);
+        bgColorToUpdate = GameObject.Find(path);
+        bgColorToUpdate.GetComponent<SpriteRenderer>().enabled = true;
     }
 }

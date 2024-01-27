@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Background
+  - RedRainbow
+  - YellowRainbow
+  - OrangeRainbow
+  - GreenRainbow
+  - BlueRainbow
+  - PurpleRainbow
   layers:
   - Default
   - TransparentFX
