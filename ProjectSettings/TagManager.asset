@@ -11,6 +11,7 @@ TagManager:
   - GreenRainbow
   - BlueRainbow
   - PurpleRainbow
+  - Ground
   layers:
   - Default
   - TransparentFX
