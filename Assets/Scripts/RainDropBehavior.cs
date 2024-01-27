@@ -15,6 +15,7 @@ public class RainDropBehavior : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.volume = 0.1f;
             audioSource.playOnAwake = false;
         }
         
