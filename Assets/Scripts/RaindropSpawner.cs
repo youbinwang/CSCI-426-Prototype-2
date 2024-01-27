@@ -16,8 +16,6 @@ public class RainDropSpawner : MonoBehaviour
         new Color(0.6352941f, 0.282353f, 0.6470588f),  // Purple
         new Color(0.45f, 0.45f, 0.45f),                // Indigo
     };
-
-    private int soundIndex = 0;
     
     private void Start()
     {
@@ -42,11 +40,6 @@ public class RainDropSpawner : MonoBehaviour
         
         float randomScale = Random.Range(0.15f, 0.4f);
         raindrop.transform.localScale = new Vector3(randomScale, randomScale, 1);
-
-        RainDropBehavior behavior = raindrop.AddComponent<RainDropBehavior>();
-        behavior.SetColorAndSoundIndex(colorIndex, soundIndex);
-
-        soundIndex = (soundIndex + 1) % 7;
     }
 
     private Vector2 RandomSpawnPosition()

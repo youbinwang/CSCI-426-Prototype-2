@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class RainDropBehavior : MonoBehaviour
 {
-    private int colorIndex;
-    private int soundIndex;
+    private static int lastSoundIndex = -1;
     private string[] soundClips = new string[7] { "do", "re", "mi", "fa", "so", "la", "ti" };
     private AudioSource audioSource;
 
@@ -18,27 +17,16 @@ public class RainDropBehavior : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
         }
+        
+        SetNextSoundIndex();
     }
 
-    public void SetColorAndSoundIndex(int colorIdx, int soundIdx)
+    private void SetNextSoundIndex()
     {
-        colorIndex = colorIdx;
-        soundIndex = soundIdx;
+        lastSoundIndex = (lastSoundIndex + 1) % soundClips.Length;
         if (audioSource != null)
         {
-            audioSource.clip = Resources.Load<AudioClip>(soundClips[soundIndex]);
-            if (audioSource.clip == null)
-            {
-                Debug.LogError("Failed to load audio clip: " + soundClips[soundIndex]);
-            }
-            else
-            {
-                Debug.Log("Loaded audio clip: " + soundClips[soundIndex]);
-            }
-        }
-        else
-        {
-            Debug.LogError("AudioSource component not found!");
+            audioSource.clip = Resources.Load<AudioClip>(soundClips[lastSoundIndex]);
         }
     }
     
@@ -46,27 +34,26 @@ public class RainDropBehavior : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            Debug.Log("Player hit");
-
-            // 确保 AudioSource 和 AudioClip 都不为 null
             if (audioSource != null && audioSource.clip != null)
             {
                 audioSource.PlayOneShot(audioSource.clip);
-                Debug.Log("Playing audio: " + soundClips[soundIndex]);
+                Renderer renderer = GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.enabled = false;
+                }
+                Destroy(gameObject, audioSource.clip.length);
+                
             }
             else
             {
                 Debug.LogError("AudioSource or AudioClip is null");
             }
-
-            // 在此处销毁对象可能会立即停止播放声音
-            // 如果您希望声音播放完毕后再销毁对象，您可能需要稍作调整
-            Destroy(gameObject, audioSource.clip.length);
         }
         
         if (collider.gameObject.tag == "Ground")
         {
-            Destroy(gameObject);
+            Destroy(gameObject, audioSource.clip.length);
         }
         
     }
