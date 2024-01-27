@@ -8,6 +8,8 @@ public class RainDropBehavior : MonoBehaviour
     private static int lastSoundIndex = -1;
     private string[] soundClips = new string[7] { "do", "re", "mi", "fa", "so", "la", "ti" };
     private AudioSource audioSource;
+    
+    private int colorIndex;
 
     private void Awake()
     {
@@ -21,6 +23,14 @@ public class RainDropBehavior : MonoBehaviour
         
         SetNextSoundIndex();
     }
+    
+    private void Start()
+    {
+        colorIndex = Random.Range(0, RainDropSpawner.colorCounts.Length);
+        GetComponent<SpriteRenderer>().color = RainDropSpawner.rainbowColors[colorIndex];
+    }
+    
+    
 
     private void SetNextSoundIndex()
     {
@@ -37,6 +47,14 @@ public class RainDropBehavior : MonoBehaviour
         {
             if (audioSource != null && audioSource.clip != null)
             {
+                if (colorIndex == 6) //If hit on Grey
+                {
+                    HitOnGrey();
+                }
+                else
+                {
+                    RainDropSpawner.CollectColor(colorIndex);
+                }
                 audioSource.PlayOneShot(audioSource.clip);
                 Renderer renderer = GetComponent<Renderer>();
                 if (renderer != null)
@@ -44,11 +62,6 @@ public class RainDropBehavior : MonoBehaviour
                     renderer.enabled = false;
                 }
                 Destroy(gameObject, audioSource.clip.length);
-                
-            }
-            else
-            {
-                Debug.LogError("AudioSource or AudioClip is null");
             }
         }
         
@@ -57,5 +70,21 @@ public class RainDropBehavior : MonoBehaviour
             Destroy(gameObject, audioSource.clip.length);
         }
         
+        if (collider.gameObject.tag == "Umbrella")
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    private void HitOnGrey()
+    {
+        int randomColorIndex;
+        do
+        {
+            randomColorIndex = Random.Range(0, RainDropSpawner.colorCounts.Length - 1);
+        } while (randomColorIndex == colorIndex || RainDropSpawner.colorCounts[randomColorIndex] == 0);
+
+        RainDropSpawner.colorCounts[randomColorIndex]--;
+        RainDropSpawner.UpdateColorObjectAlpha(randomColorIndex, RainDropSpawner.colorCounts[randomColorIndex] / 3f);
     }
 }

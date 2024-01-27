@@ -6,8 +6,10 @@ public class RainDropSpawner : MonoBehaviour
 {
     public GameObject raindropPrefab;
     public float spawnRate = 1f;
+
+    public GameObject[] rainbowObjects;
     
-    private Color[] rainbowColors = new Color[7] {
+    public static Color[] rainbowColors = new Color[7] {
         new Color(0.9254903f, 0.1098039f, 0.1372549f), // Red
         new Color(0.9960785f, 0.4980392f, 0.145098f),  // Orange
         new Color(0.9960785f, 0.9529412f, 0f),         // Yellow
@@ -17,11 +19,81 @@ public class RainDropSpawner : MonoBehaviour
         new Color(0.45f, 0.45f, 0.45f),                // Indigo
     };
     
+    public static int[] colorCounts = new int[7];
+    
+    public static void CollectColor(int colorIndex)
+    {
+        colorCounts[colorIndex]++;
+        if (colorCounts[colorIndex] <= 3)
+        {
+            UpdateColorObjectAlpha(colorIndex, colorCounts[colorIndex] / 3f);
+        }
+        if (colorCounts[colorIndex] == 3)
+        {
+            Debug.Log($"Collected 3 of color index: {colorIndex}");
+        }
+    }
+    
+    public static void UpdateColorObjectAlpha(int colorIndex, float alpha)
+    {
+        if (colorIndex >= 0 && colorIndex < Instance.rainbowObjects.Length)
+        {
+            var colorObj = Instance.rainbowObjects[colorIndex];
+            if (colorObj != null)
+            {
+                var spriteRenderer = colorObj.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    var color = spriteRenderer.color;
+                    color.a = alpha;
+                    spriteRenderer.color = color;
+                }
+            }
+        }
+    }
+
+
+    public static RainDropSpawner Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    
     private void Start()
     {
+        InitializeColorObjectsAlpha();
+        
         StartCoroutine(SpawnRaindrops());
     }
 
+    private void InitializeColorObjectsAlpha()
+    {
+        foreach (var colorObj in rainbowObjects)
+        {
+            if (colorObj != null)
+            {
+                var spriteRenderer = colorObj.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.enabled = true;
+                    var color = spriteRenderer.color;
+                    color.a = 0f;
+                    spriteRenderer.color = color;
+                }
+            }
+        }
+    }
+    
+    
     private IEnumerator SpawnRaindrops()
     {
         while (true)

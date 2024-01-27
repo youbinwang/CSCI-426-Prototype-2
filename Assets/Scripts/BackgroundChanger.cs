@@ -5,7 +5,7 @@ using UnityEngine;
 public class BackgroundChanger : MonoBehaviour
 {
     GameObject bgColorToUpdate;
-    // Start is called before the first frame update
+
     void Awake()
     {
         bgColorToUpdate = GameObject.Find("Red");        
@@ -28,8 +28,7 @@ public class BackgroundChanger : MonoBehaviour
 
         bgColorToUpdate = null;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         
