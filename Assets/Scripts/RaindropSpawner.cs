@@ -13,13 +13,15 @@ public class RainDropSpawner : MonoBehaviour
         new Color(0.9254903f, 0.1098039f, 0.1372549f), // Red
         new Color(0.9960785f, 0.4980392f, 0.145098f),  // Orange
         new Color(0.9960785f, 0.9529412f, 0f),         // Yellow
-        new Color(0.7529413f, 0.854902f, 0.6784314f),  // Green
+        new Color(0.13f, 0.69f, 0.29f),                 // Green
         new Color(0f, 0.6352941f, 0.9058824f),         // Blue
         new Color(0.6352941f, 0.282353f, 0.6470588f),  // Purple
         new Color(0.45f, 0.45f, 0.45f),                // Indigo
     };
     
     public static int[] colorCounts = new int[7];
+    
+    public List<int> availableColors = new List<int>();
     
     public static void CollectColor(int colorIndex)
     {
@@ -30,7 +32,9 @@ public class RainDropSpawner : MonoBehaviour
         }
         if (colorCounts[colorIndex] == 3)
         {
-            Debug.Log($"Collected 3 of color index: {colorIndex}");
+            Instance.availableColors.Remove(colorIndex);
+            Instance.StartCoroutine(Instance.FlashColor(colorIndex, 0.2f));
+            Debug.Log("Current available colors: " + string.Join(", ", Instance.availableColors));
         }
     }
     
@@ -44,14 +48,55 @@ public class RainDropSpawner : MonoBehaviour
                 var spriteRenderer = colorObj.GetComponent<SpriteRenderer>();
                 if (spriteRenderer != null)
                 {
+                    
                     var color = spriteRenderer.color;
                     color.a = alpha;
                     spriteRenderer.color = color;
+                  
                 }
             }
         }
     }
 
+    
+    
+    private IEnumerator FlashColor(int colorIndex, float flashDuration)
+    {
+        if (colorIndex >= 0 && colorIndex < rainbowObjects.Length)
+        {
+            var colorObj = rainbowObjects[colorIndex];
+            if (colorObj != null)
+            {
+                var spriteRenderer = colorObj.GetComponent<SpriteRenderer>();
+                var border = colorObj.transform.Find("Border");
+                if (spriteRenderer != null && border != null)
+                {
+                    Color originalColor = spriteRenderer.color;
+                    float originalAlpha = originalColor.a;
+                    
+                    border.gameObject.SetActive(true);
+                    
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (float a = 0f; a <= 1f; a += Time.deltaTime / flashDuration)
+                        {
+                            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+                            yield return null;
+                        }
+                        
+                        for (float a = 1f; a >= originalAlpha; a -= Time.deltaTime / flashDuration)
+                        {
+                            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+                            yield return null;
+                        }
+                    }
+
+                    spriteRenderer.color = originalColor;
+                }
+            }
+        }
+    }
+    
 
     public static RainDropSpawner Instance { get; private set; }
 
@@ -71,8 +116,13 @@ public class RainDropSpawner : MonoBehaviour
     private void Start()
     {
         InitializeColorObjectsAlpha();
-        
         StartCoroutine(SpawnRaindrops());
+        
+        for (int i = 0; i < rainbowColors.Length; i++)
+        {
+            availableColors.Add(i);
+        }
+        
     }
 
     private void InitializeColorObjectsAlpha()
@@ -107,10 +157,25 @@ public class RainDropSpawner : MonoBehaviour
     {
         GameObject raindrop = Instantiate(raindropPrefab, RandomSpawnPosition(), Quaternion.identity);
         
-        int colorIndex = Random.Range(0, rainbowColors.Length);
-        raindrop.GetComponent<SpriteRenderer>().color = rainbowColors[colorIndex];
-        
-        float randomScale = Random.Range(0.15f, 0.4f);
+        // int colorIndex = Random.Range(0, rainbowColors.Length);
+        // raindrop.GetComponent<SpriteRenderer>().color = rainbowColors[colorIndex];
+        //
+        // float randomScale = Random.Range(0.15f, 0.4f);
+        // raindrop.transform.localScale = new Vector3(randomScale, randomScale, 1);
+        Debug.Log($"Spawning raindrop. Available colors count: {availableColors.Count}");
+        if (availableColors.Count > 0)
+        {
+            int colorIndex = availableColors[Random.Range(0, availableColors.Count)];
+            
+            raindrop.GetComponent<SpriteRenderer>().color = rainbowColors[colorIndex];
+        }
+        else
+        {
+            Debug.Log("No more colors available. Spawning default color.");
+            raindrop.GetComponent<SpriteRenderer>().color = rainbowColors[6];
+        }
+    
+        float randomScale = Random.Range(0.2f, 0.4f);
         raindrop.transform.localScale = new Vector3(randomScale, randomScale, 1);
     }
 
