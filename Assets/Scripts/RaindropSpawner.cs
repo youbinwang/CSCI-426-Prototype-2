@@ -9,6 +9,9 @@ public class RainDropSpawner : MonoBehaviour
 
     public GameObject[] rainbowObjects;
     
+    public SpriteRenderer backgroundRenderer;
+    public SpriteRenderer groundRenderer;
+    
     public static Color[] rainbowColors = new Color[7] {
         new Color(0.9254903f, 0.1098039f, 0.1372549f), // Red
         new Color(0.9960785f, 0.4980392f, 0.145098f),  // Orange
@@ -20,8 +23,9 @@ public class RainDropSpawner : MonoBehaviour
     };
     
     public static int[] colorCounts = new int[7];
-    
     public List<int> availableColors = new List<int>();
+    
+    private Coroutine flashBackgroundCoroutine;
     
     public static void CollectColor(int colorIndex)
     {
@@ -29,11 +33,19 @@ public class RainDropSpawner : MonoBehaviour
         if (colorCounts[colorIndex] <= 3)
         {
             UpdateColorObjectAlpha(colorIndex, colorCounts[colorIndex] / 3f);
+            Color flashColor = rainbowColors[colorIndex];
+            if (Instance.flashBackgroundCoroutine != null)
+            {
+                Instance.StopCoroutine(Instance.flashBackgroundCoroutine);
+            }
+            Instance.flashBackgroundCoroutine = Instance.StartCoroutine(Instance.FlashBackground(flashColor, 0.2f));
         }
         if (colorCounts[colorIndex] == 3)
         {
             Instance.availableColors.Remove(colorIndex);
             Instance.StartCoroutine(Instance.FlashColor(colorIndex, 0.2f));
+            Color flashColor = rainbowColors[colorIndex];
+            Instance.StartCoroutine(Instance.FlashGround(flashColor, 0.15f));
             Debug.Log("Current available colors: " + string.Join(", ", Instance.availableColors));
         }
     }
@@ -58,7 +70,31 @@ public class RainDropSpawner : MonoBehaviour
         }
     }
 
+    private IEnumerator FlashBackground(Color flashColor, float flashDuration)
+    {
+        Color originalColor = backgroundRenderer.color;
+
+        for (int i = 0; i < 2; i++)
+        {
+            backgroundRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+            backgroundRenderer.color = originalColor;
+            yield return new WaitForSeconds(flashDuration);
+        }
+    }
     
+    private IEnumerator FlashGround(Color flashColor, float flashDuration)
+    {
+        Color originalColor = groundRenderer.color;
+        
+        for (int i = 0; i < 2; i++)
+        {
+            groundRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+            groundRenderer.color = originalColor;
+            yield return new WaitForSeconds(flashDuration);
+        }
+    }
     
     private IEnumerator FlashColor(int colorIndex, float flashDuration)
     {
@@ -175,7 +211,7 @@ public class RainDropSpawner : MonoBehaviour
             raindrop.GetComponent<SpriteRenderer>().color = rainbowColors[6];
         }
     
-        float randomScale = Random.Range(0.2f, 0.4f);
+        float randomScale = Random.Range(0.3f, 0.4f);
         raindrop.transform.localScale = new Vector3(randomScale, randomScale, 1);
     }
 
