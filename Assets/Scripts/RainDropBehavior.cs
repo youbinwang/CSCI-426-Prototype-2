@@ -10,6 +10,8 @@ public class RainDropBehavior : MonoBehaviour
     private AudioSource audioSource;
 
     private int colorIndex;
+    
+    public GameObject particleSystemPrefab;
 
     private void Awake()
     {
@@ -70,21 +72,34 @@ public class RainDropBehavior : MonoBehaviour
                 {
                     renderer.enabled = false;
                 }
-
+               
                 Destroy(gameObject, audioSource.clip.length);
             }
         }
 
         if (collider.gameObject.tag == "Ground")
         {
+            SpawnParticleSystem();
             Destroy(gameObject, audioSource.clip.length);
         }
 
         if (collider.gameObject.tag == "Umbrella")
         {
+            SpawnParticleSystem();
             Destroy(gameObject);
         }
     }
+    
+    private void SpawnParticleSystem()
+    {
+        if (particleSystemPrefab != null)
+        {
+            GameObject particleSystemInstance = Instantiate(particleSystemPrefab, transform.position, Quaternion.identity);
+            Destroy(particleSystemInstance, 1f);
+        }
+    }
+    
+    
 
     private void HitOnGrey()
     {
