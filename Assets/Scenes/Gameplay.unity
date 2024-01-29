@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd40959c09b3df543ba187f7a2dbcb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 1
   umbrellaSpeed: 5
   umbrella: {fileID: 1554818830}
 --- !u!1 &521565931
@@ -1760,7 +1760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raindropPrefab: {fileID: 6581534579817460856, guid: 6c90ef803bfbb1643816e7da182fb587, type: 3}
-  spawnRate: 3
+  spawnRate: 5
   rainbowObjects:
   - {fileID: 29921153}
   - {fileID: 949346038}
