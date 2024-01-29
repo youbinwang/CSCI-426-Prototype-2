@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd40959c09b3df543ba187f7a2dbcb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 2
   umbrellaSpeed: 5
   umbrella: {fileID: 1554818830}
 --- !u!1 &521565931
