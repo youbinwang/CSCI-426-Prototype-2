@@ -44,10 +44,11 @@ public class Timer : MonoBehaviour
             {
                 Debug.Log("Time's up! Game over.");
                 timerOver = true;
+                timeValue = 0;
                 gameOverScript.SetState(false);
             }
-
             DisplayTime(timeValue);
+
         }
     }
 

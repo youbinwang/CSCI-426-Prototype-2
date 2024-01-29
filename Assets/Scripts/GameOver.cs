@@ -27,7 +27,7 @@
             else
             {
                 gameOverContainer.SetActive(true);
-                conditionImage.SetActive(true);
+                conditionImage.SetActive(false);
                 gameOverConditionText.SetText("You Lose...");
             }
             
