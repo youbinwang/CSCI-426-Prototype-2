@@ -12,39 +12,42 @@ public class Timer : MonoBehaviour
 
     // for game end
     public GameObject gameOverContainer;
-    private GameOver gameOverScript;
+    public GameOver gameOverScript;
     public bool won;
 
     // Start is called before the first frame update
     void Start()
     {
         timeText = GetComponent<TMP_Text>();
-        gameOverScript = gameOverContainer.GetComponent<GameOver>();
         timerOver = false;
+        Debug.Log("GameOver script is " + (gameOverScript != null ? "attached" : "not attached"));
     }
-
-    // Update is called once per frame
+    
+    
     void Update()
     {
-        if (timeValue > 0)
+        if (!timerOver)
         {
-            timeValue -= Time.deltaTime;
-        }
-        else
-        {
-            timeValue = 0;
-        }
+            if (won)
+            {
+                gameOverScript.SetState(true);
+                timerOver = true;
+                return;
+            }
 
-        DisplayTime(timeValue);
+            if (timeValue > 0)
+            {
+                timeValue -= Time.deltaTime;
+            }
+           
+            if (timeValue <= 0 && !timerOver)
+            {
+                Debug.Log("Time's up! Game over.");
+                timerOver = true;
+                gameOverScript.SetState(false);
+            }
 
-        if (won)
-        {
-            gameOverScript.SetState(true);
-
-        }
-        else if(timerOver)
-        {
-            gameOverScript.SetState(false);
+            DisplayTime(timeValue);
         }
     }
 
@@ -60,5 +63,12 @@ public class Timer : MonoBehaviour
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
         timeText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+    }
+    
+    public void SetWinCondition(bool hasWon)
+    {
+        
+        Debug.Log("123");
+        won = hasWon;
     }
 }

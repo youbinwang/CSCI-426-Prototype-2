@@ -48,6 +48,8 @@ public class RainDropSpawner : MonoBehaviour
             Instance.StartCoroutine(Instance.FlashGround(flashColor, 0.15f));
             Debug.Log("Current available colors: " + string.Join(", ", Instance.availableColors));
         }
+        
+        Instance.CheckWinCondition();
     }
     
     public static void UpdateColorObjectAlpha(int colorIndex, float alpha)
@@ -132,8 +134,31 @@ public class RainDropSpawner : MonoBehaviour
             }
         }
     }
-    
 
+    public Timer timer;
+    
+    public void CheckWinCondition()
+    {
+        bool won = true;
+        for (int i = 0; i < colorCounts.Length - 1; i++)
+        {
+            if (colorCounts[i] < 3)
+            {
+                won = false;
+                break;
+            }
+        }
+        if (won)
+        {
+            Debug.Log("Win condition met. Timer is " + (timer != null ? "found" : "not found"));
+            if (timer != null)
+            {
+                timer.SetWinCondition(true);
+            }
+        }
+    }
+    
+    
     public static RainDropSpawner Instance { get; private set; }
 
     private void Awake()
@@ -214,6 +239,7 @@ public class RainDropSpawner : MonoBehaviour
         float randomScale = Random.Range(0.3f, 0.4f);
         raindrop.transform.localScale = new Vector3(randomScale, randomScale, 1);
     }
+    
 
     private Vector2 RandomSpawnPosition()
     {

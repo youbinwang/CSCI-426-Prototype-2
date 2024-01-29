@@ -1,38 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using TMPro;
 
-public class GameOver : MonoBehaviour
-{
-    public GameObject gameOverContainer;
-    public GameObject conditionImage;
-    public TMP_Text gameOverConditionText;
-    // Start is called before the first frame update
-    void Start()
+    public class GameOver : MonoBehaviour
     {
-        gameOverContainer.SetActive(false);
-        conditionImage.SetActive(false);
-    }
+        public GameObject gameOverContainer;
+        public GameObject conditionImage;
+        public TMP_Text gameOverConditionText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void SetState(bool won)
-    {
-        if (won)
+        public Collider2D playerCollider;
+        void Start()
         {
-            conditionImage.SetActive(true);
-            gameOverConditionText.SetText("You Win!");
-        }
-        else
-        {
-            gameOverConditionText.SetText("You Lose...");
+            gameOverContainer.SetActive(false);
+            conditionImage.SetActive(false);
         }
 
-        gameOverContainer.SetActive(true);
+        public void SetState(bool won)
+        {
+            if (won)
+            {
+                gameOverContainer.SetActive(true);
+                conditionImage.SetActive(true);
+                gameOverConditionText.SetText("You Win!");
+            }
+            else
+            {
+                gameOverContainer.SetActive(true);
+                conditionImage.SetActive(true);
+                gameOverConditionText.SetText("You Lose...");
+            }
+            
+            if (playerCollider != null)
+            {
+                playerCollider.enabled = false;
+            }
+        }
     }
-}
