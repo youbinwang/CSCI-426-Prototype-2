@@ -10,6 +10,9 @@ public class ScenesManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            
+            RainDropSpawner.ResetGame(); 
+            
             string sceneName = SceneManager.GetActiveScene().name;
             
             SceneManager.LoadScene(sceneName);

@@ -160,8 +160,16 @@ public class RainDropSpawner : MonoBehaviour
             }
         }
     }
+
+    public static void ResetGame()
+    {
+        for (int i = 0; i < colorCounts.Length; i++)
+        {
+            colorCounts[i] = 0;
+        }
+    }
     
-    
+
     public static RainDropSpawner Instance { get; private set; }
 
     private void Awake()
