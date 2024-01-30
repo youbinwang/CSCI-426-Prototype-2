@@ -12,6 +12,8 @@ public class RainDropSpawner : MonoBehaviour
     public SpriteRenderer backgroundRenderer;
     public SpriteRenderer groundRenderer;
     
+    private Color originalBackgroundColor;
+    
     public static Color[] rainbowColors = new Color[7] {
         new Color(0.9254903f, 0.1098039f, 0.1372549f), // Red
         new Color(0.9960785f, 0.4980392f, 0.145098f),  // Orange
@@ -37,6 +39,7 @@ public class RainDropSpawner : MonoBehaviour
             if (Instance.flashBackgroundCoroutine != null)
             {
                 Instance.StopCoroutine(Instance.flashBackgroundCoroutine);
+                Instance.backgroundRenderer.color = Instance.originalBackgroundColor;
             }
             Instance.flashBackgroundCoroutine = Instance.StartCoroutine(Instance.FlashBackground(flashColor, 0.2f));
         }
@@ -166,6 +169,7 @@ public class RainDropSpawner : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            originalBackgroundColor = backgroundRenderer.color;
         }
         else
         {
